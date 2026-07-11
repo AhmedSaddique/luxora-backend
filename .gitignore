@@ -1,0 +1,64 @@
+# Dependency directories
+node_modules/
+
+# Prisma generated client (regenerated on install via `prisma generate`)
+/generated/prisma
+
+# Environment variables and secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.backup
+*.env
+*.env.*
+secrets.json
+credentials.json
+serviceAccountKey.json
+
+# Keys and Certificates
+*.pem
+*.key
+*.cert
+*.pfx
+*.p12
+*.crt
+*.der
+*.keystore
+*.jks
+
+# SSH Keys
+id_rsa
+id_rsa.pub
+id_ecdsa
+id_ecdsa.pub
+id_ed25519
+id_ed25519.pub
+id_dsa
+id_dsa.pub
+
+# Logs and databases
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.db
+*.sqlite
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS metadata
+.DS_Store
+Thumbs.db
+.vercel
+.env*

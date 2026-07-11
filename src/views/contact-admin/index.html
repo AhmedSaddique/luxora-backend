@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Contact Message</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background:#f4f4f5; margin:0; padding:24px; color:#333;">
+  <div
+    style="max-width:600px; margin:0 auto; background:#ffffff; border:1px solid #e6e6e6; border-radius:6px; overflow:hidden;">
+    <div style="background:#1f1f1f; padding:28px 24px; text-align:center;">
+      <h1 style="margin:0; font-size:22px; color:#ffffff;">New Contact Message</h1>
+      <p style="margin:8px 0 0; font-size:14px; color:#e0b66a; font-weight:bold;">Shutters</p>
+    </div>
+    <div style="padding:28px;">
+      <p style="font-size:15px; line-height:1.6; color:#555; margin:0 0 18px;">
+        A new contact message has been submitted on <strong>shutters.ae</strong>:
+      </p>
+      <table style="width:100%; font-size:14px; line-height:2; color:#333;">
+        <tr>
+          <td><strong>Name:</strong> ${name}</td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong> ${email}</td>
+        </tr>
+        <tr>
+          <td><strong>Phone Number:</strong> ${phone}</td>
+        </tr>
+        <tr>
+          <td><strong>WhatsApp Number:</strong> ${whatsapp}</td>
+        </tr>
+      </table>
+      <p style="font-size:14px; margin:18px 0 6px;"><strong>Message:</strong></p>
+      <p
+        style="font-size:14px; line-height:1.6; color:#333; margin:0; padding:12px; background:#f9f9f9; border-radius:6px;">
+        ${message}</p>
+      <p style="font-size:14px; line-height:1.6; color:#555; margin-top:18px;">
+        Please respond to the customer at <strong>${email}</strong>.
+      </p>
+    </div>
+    <div style="background:#f4f4f5; padding:18px; text-align:center; font-size:12px; color:#999;">
+      Shutters &mdash; contact notification
+    </div>
+  </div>
+</body>
+
+</html>

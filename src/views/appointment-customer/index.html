@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appointment Confirmation</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background:#f4f4f5; margin:0; padding:24px; color:#333;">
+  <div
+    style="max-width:600px; margin:0 auto; background:#ffffff; border:1px solid #e6e6e6; border-radius:6px; overflow:hidden;">
+    <div style="background:#1f1f1f; padding:28px 24px; text-align:center;">
+      <h1 style="margin:0; font-size:22px; color:#ffffff;">Appointment Confirmation</h1>
+      <p style="margin:8px 0 0; font-size:14px; color:#e0b66a; font-weight:bold;">Shutters</p>
+    </div>
+    <div style="padding:28px;">
+      <p style="font-size:15px; margin:0 0 14px;">Dear ${name},</p>
+      <p style="font-size:15px; line-height:1.6; color:#555; margin:0 0 18px;">
+        Thank you for booking an appointment with <strong>Shutters</strong>. Here are your submitted details:
+      </p>
+      <table style="width:100%; font-size:14px; line-height:2; color:#333;">
+        <tr>
+          <td><strong>Name:</strong> ${name}</td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong> ${email}</td>
+        </tr>
+        <tr>
+          <td><strong>Phone Number:</strong> ${phone}</td>
+        </tr>
+        <tr>
+          <td><strong>WhatsApp Number:</strong> ${whatsapp}</td>
+        </tr>
+        <tr>
+          <td><strong>Location:</strong> ${location}</td>
+        </tr>
+        <tr>
+          <td><strong>Preferred Time:</strong> ${availableTime}</td>
+        </tr>
+        <tr>
+          <td><strong>Message:</strong> ${message}</td>
+        </tr>
+      </table>
+      <p style="font-size:14px; margin:18px 0 6px;"><strong>Shutters Type:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; font-size:14px; color:#333; line-height:1.8;">${shutterTypesHtml}</ul>
+      <p style="font-size:14px; line-height:1.6; color:#555; margin-top:18px;">
+        We will contact you shortly. If you need to make changes or have any questions, please reply to this email or
+        visit
+        <a href="https://shutters.ae/" style="color:#1f1f1f; font-weight:bold;">shutters.ae</a>.
+      </p>
+    </div>
+    <div style="background:#f4f4f5; padding:18px; text-align:center; font-size:12px; color:#999;">
+      &copy; Shutters. All rights reserved.<br />This is an automated email. Please do not reply directly.
+    </div>
+  </div>
+</body>
+
+</html>

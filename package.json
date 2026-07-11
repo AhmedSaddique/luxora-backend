@@ -1,0 +1,61 @@
+{
+  "name": "shutter-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate",
+    "db:studio": "npx prisma studio",
+    "db:init": "npx prisma init",
+    "db:push": "npx prisma db push",
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev",
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate",
+    "db:reset": "npx prisma migrate reset",
+    "db:seed": "node prisma/seed.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "Shutters backend - GraphQL API (Express + Apollo + Prisma)",
+  "engines": {
+    "node": "24.x"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.2.0",
+    "@as-integrations/express5": "^1.1.2",
+    "@graphql-tools/merge": "^9.0.0",
+    "@prisma/adapter-pg": "^7.1.0",
+    "@prisma/client": "^7.1.0",
+    "bcryptjs": "^3.0.3",
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "envalid": "^8.1.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.3.1",
+    "graphql": "^16.12.0",
+    "graphql-tag": "^2.12.6",
+    "graphql-type-json": "^0.3.2",
+    "helmet": "^8.1.0",
+    "http-errors": "^2.0.1",
+    "ioredis": "^5.11.1",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^7.0.11",
+    "winston": "^3.19.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "prisma": "^7.1.0"
+  },
+  "imports": {
+    "#config/*": "./src/config/*",
+    "#lib/*": "./src/lib/*",
+    "#middleware/*": "./src/middleware/*",
+    "#modules/*": "./src/modules/*"
+  }
+}
