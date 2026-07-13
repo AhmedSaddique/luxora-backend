@@ -51,6 +51,7 @@ export const adminService = {
     return prisma.admin.update({ where: { id }, data, select: PUBLIC_FIELDS });
   },
 
+
   remove: async (id) => {
     await prisma.admin.delete({ where: { id } });
     return { success: true, message: "Admin removed successfully." };
