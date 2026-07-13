@@ -4,6 +4,8 @@ import { logger, getServerInfo } from "#lib/index.js";
 
 const { PORT } = env;
 
+
+
 init()
   .then(() => app.listen(PORT, () => logger.info(getServerInfo())))
   .catch((error) => {
