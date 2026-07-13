@@ -6,6 +6,9 @@ const { FRONTEND_URL, DASHBOARD_URL } = env;
 const whitelist = [
   ...new Set(
     [
+      "https://luxoracollection.online",
+      "https://www.luxoracollection.online",
+      "https://luxora-frontend-beta.vercel.app",
       "http://localhost:3000",
       "http://localhost:3001",
       FRONTEND_URL,
@@ -16,10 +19,16 @@ const whitelist = [
   ),
 ];
 
+// Vercel generates a unique URL per preview deployment
+// (e.g. https://luxora-frontend-abc123.vercel.app) — allow the whole project.
+const VERCEL_PREVIEW = /^https:\/\/luxora-frontend[a-z0-9-]*\.vercel\.app$/i;
+
 export const corsOptions = {
   origin(origin, callback) {
     // Allow non-browser clients (curl, Postman, Apollo Sandbox) with no origin.
-    if (!origin || whitelist.includes(origin.replace(/\/$/, ""))) {
+    if (!origin) return callback(null, true);
+    const clean = origin.replace(/\/$/, "");
+    if (whitelist.includes(clean) || VERCEL_PREVIEW.test(clean)) {
       return callback(null, true);
     }
     return callback(new Error(`Origin "${origin}" not allowed by CORS.`));
