@@ -1,6 +1,7 @@
 import { prisma, slugify, cache } from "#lib/index.js";
 
 const LIST_KEY = "products:list";
+const INCLUDE = { category: true, subcategory: true };
 
 export const productService = {
   list: async (onlyPublished = false) => {
@@ -8,7 +9,7 @@ export const productService = {
     if (!data) {
       data = await prisma.product.findMany({
         orderBy: { createdAt: "desc" },
-        include: { category: true },
+        include: INCLUDE,
       });
       await cache.set(LIST_KEY, data, 120);
     }
@@ -16,12 +17,12 @@ export const productService = {
   },
 
   byId: (id) =>
-    prisma.product.findUnique({ where: { id }, include: { category: true } }),
+    prisma.product.findUnique({ where: { id }, include: INCLUDE }),
 
   byPath: async (path, onlyPublished = false) => {
     const product = await prisma.product.findUnique({
       where: { path },
-      include: { category: true },
+      include: INCLUDE,
     });
     if (onlyPublished && product && product.status !== "PUBLISHED") return null;
     return product;
@@ -34,14 +35,24 @@ export const productService = {
         ...(onlyPublished ? { status: "PUBLISHED" } : {}),
       },
       orderBy: { createdAt: "desc" },
-      include: { category: true },
+      include: INCLUDE,
+    }),
+
+  bySubcategory: (subcategoryId, onlyPublished = false) =>
+    prisma.product.findMany({
+      where: {
+        subcategoryId,
+        ...(onlyPublished ? { status: "PUBLISHED" } : {}),
+      },
+      orderBy: { createdAt: "desc" },
+      include: INCLUDE,
     }),
 
   create: async (input, editor) => {
     const path = input.path?.trim() || slugify(input.name);
     const product = await prisma.product.create({
       data: { ...input, path, lastEditedBy: editor },
-      include: { category: true },
+      include: INCLUDE,
     });
     await cache.del(LIST_KEY);
     return product;
@@ -53,7 +64,7 @@ export const productService = {
     const product = await prisma.product.update({
       where: { id },
       data,
-      include: { category: true },
+      include: INCLUDE,
     });
     await cache.del(LIST_KEY);
     return product;

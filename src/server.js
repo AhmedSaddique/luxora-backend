@@ -21,7 +21,7 @@ export const init = () => {
       setupMiddleware(app, apolloServer);
 
       app.get("/", (_req, res) =>
-        res.json({ status: "OK", service: "shutter-backend" })
+        res.json({ status: "OK", service: "luxora-backend" })
       );
     })().catch((error) => {
       ready = undefined;

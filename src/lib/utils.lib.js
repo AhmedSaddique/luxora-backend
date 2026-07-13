@@ -36,7 +36,7 @@ export const slugify = (value = "") =>
 
 export const getServerInfo = () =>
   `
-⚙️  Shutters Backend (Express + Apollo + Prisma)
+⚙️  Luxora Collection Backend (Express + Apollo + Prisma)
 - Environment: ${NODE_ENV}
 ➜  GraphQL: ${BACKEND_URL}/graphql
 `.trim();

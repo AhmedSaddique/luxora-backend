@@ -17,6 +17,9 @@ export const productResolvers = {
     productsByCategory: handlePromise((_p, { categoryId }, ctx) =>
       productService.byCategory(categoryId, !ctx.user)
     ),
+    productsBySubcategory: handlePromise((_p, { subcategoryId }, ctx) =>
+      productService.bySubcategory(subcategoryId, !ctx.user)
+    ),
   },
 
   Mutation: {

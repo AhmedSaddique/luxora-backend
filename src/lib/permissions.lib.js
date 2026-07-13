@@ -9,6 +9,11 @@ export const PERMISSIONS = {
   EDIT_CATEGORY: "canEditCategory",
   DELETE_CATEGORY: "canDeleteCategory",
 
+  // Subcategory
+  ADD_SUBCATEGORY: "canAddSubcategory",
+  EDIT_SUBCATEGORY: "canEditSubcategory",
+  DELETE_SUBCATEGORY: "canDeleteSubcategory",
+
   // Product
   ADD_PRODUCT: "canAddProduct",
   EDIT_PRODUCT: "canEditProduct",
@@ -29,8 +34,9 @@ export const PERMISSIONS = {
   EDIT_REDIRECT: "canEditRedirect",
   DELETE_REDIRECT: "canDeleteRedirect",
 
-  // Appointment (view only — appointments cannot be deleted)
-  VIEW_APPOINTMENTS: "canViewAppointments",
+  // Orders
+  VIEW_ORDERS: "canViewOrders",
+  MANAGE_ORDERS: "canManageOrders",
 
   // Contact (view only — contacts cannot be deleted)
   VIEW_CONTACTS: "canViewContacts",

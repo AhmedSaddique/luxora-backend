@@ -15,6 +15,13 @@ export const verify = {
     return resolver(parent, args, context, info);
   },
 
+  // Storefront customer guard — requires a logged-in User (not an admin).
+  customer: (resolver) => (parent, args, context, info) => {
+    if (!context.customer)
+      throw createError(401, "Please sign in to continue.");
+    return resolver(parent, args, context, info);
+  },
+
   role: (authorizedRoles) => (resolver) => (parent, args, context, info) => {
     requireAuth(context);
     if (!authorizedRoles.includes(context.user.role)) {

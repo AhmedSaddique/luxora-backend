@@ -8,6 +8,7 @@ const { JWT_SECRET } = env;
 const EXPIRY = {
   accessToken: "7d",
   passwordResetToken: "15m",
+  customerAccessToken: "30d",
 };
 
 export const tokenUtils = {

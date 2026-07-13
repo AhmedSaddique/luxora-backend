@@ -17,7 +17,7 @@ const sendContactEmails = async (contact) => {
   try {
     await sendEmail("contact-customer", {
       to: contact.email,
-      subject: "We received your message - Shutter",
+      subject: "We received your message - Luxora Collection",
       ...vars,
     });
   } catch (error) {

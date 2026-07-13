@@ -6,7 +6,8 @@ const imageSchema = z
 
 const status = z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]);
 
-export const createCategorySchema = z.object({
+export const createSubcategorySchema = z.object({
+  categoryId: z.string().uuid("A valid category is required"),
   name: z.string().trim().min(1, "Name is required"),
   description: z.string().trim().min(1, "Description is required"),
   breadcrumb: z.string().trim().min(1, "Breadcrumb is required"),
@@ -20,8 +21,9 @@ export const createCategorySchema = z.object({
   status: status.optional(),
 });
 
-export const updateCategorySchema = z
+export const updateSubcategorySchema = z
   .object({
+    categoryId: z.string().uuid().optional(),
     name: z.string().trim().min(1).optional(),
     description: z.string().trim().min(1).optional(),
     breadcrumb: z.string().trim().min(1).optional(),

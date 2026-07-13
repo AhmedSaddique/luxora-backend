@@ -6,9 +6,6 @@ const { FRONTEND_URL, DASHBOARD_URL } = env;
 const whitelist = [
   ...new Set(
     [
-      "https://shutters.ae",
-      "https://www.shutters.ae",
-      "https://shutters-frontend.vercel.app",
       "http://localhost:3000",
       "http://localhost:3001",
       FRONTEND_URL,

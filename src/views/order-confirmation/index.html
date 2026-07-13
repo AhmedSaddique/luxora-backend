@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmation</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background:#f4f4f5; margin:0; padding:24px; color:#333;">
+  <div
+    style="max-width:600px; margin:0 auto; background:#ffffff; border:1px solid #e6e6e6; border-radius:6px; overflow:hidden;">
+    <div style="background:#1f1f1f; padding:28px 24px; text-align:center;">
+      <h1 style="margin:0; font-size:22px; color:#ffffff;">Order Confirmed 🎉</h1>
+      <p style="margin:8px 0 0; font-size:14px; color:#e0b66a; font-weight:bold;">Luxora Collection</p>
+    </div>
+    <div style="padding:28px;">
+      <p style="font-size:15px; margin:0 0 14px;">Dear ${name},</p>
+      <p style="font-size:15px; line-height:1.6; color:#555; margin:0 0 18px;">
+        Thank you for your order! We've received it and will process it shortly.
+        Payment method: <strong>Cash on Delivery</strong>.
+      </p>
+
+      <table style="width:100%; font-size:14px; line-height:1.8; color:#333; margin-bottom:8px;">
+        <tr><td><strong>Order Number:</strong></td><td style="text-align:right;">${orderNumber}</td></tr>
+        <tr><td><strong>Tracking ID:</strong></td><td style="text-align:right;">${trackingId}</td></tr>
+      </table>
+
+      <p style="font-size:14px; margin:18px 0 6px;"><strong>Items:</strong></p>
+      <table style="width:100%; font-size:14px; color:#333; border-top:1px solid #eee; border-bottom:1px solid #eee;">
+        ${itemsHtml}
+      </table>
+
+      <table style="width:100%; font-size:14px; line-height:2; color:#333; margin-top:10px;">
+        <tr><td>Subtotal</td><td style="text-align:right;">${subtotal}</td></tr>
+        <tr><td>Shipping</td><td style="text-align:right;">${shipping}</td></tr>
+        <tr><td style="font-weight:bold;">Total</td><td style="text-align:right; font-weight:bold;">${total}</td></tr>
+      </table>
+
+      <p style="font-size:14px; margin:18px 0 6px;"><strong>Delivery Address:</strong></p>
+      <p style="font-size:14px; line-height:1.6; color:#333; margin:0;">${addressHtml}<br />${phone}</p>
+
+      <div style="text-align:center; margin:26px 0 6px;">
+        <a href="${trackUrl}"
+          style="display:inline-block; background:#be185d; color:#ffffff; text-decoration:none; font-weight:bold; font-size:15px; padding:12px 32px; border-radius:6px;">
+          Track Your Order
+        </a>
+      </div>
+    </div>
+    <div style="background:#f4f4f5; padding:18px; text-align:center; font-size:12px; color:#999;">
+      &copy; Luxora Collection. All rights reserved.<br />This is an automated email. Please do not reply directly.
+    </div>
+  </div>
+</body>
+
+</html>

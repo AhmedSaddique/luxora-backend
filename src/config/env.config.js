@@ -14,8 +14,8 @@ const validators = {
 
   BACKEND_URL: url({ desc: "Backend URL" }),
   FRONTEND_URL: url({ desc: "Public website URL" }),
-  // Plain default (not devDefault): only feeds the CORS whitelist, which
-  // already hardcodes the production domains — must never crash the boot.
+  // Plain default (not devDefault): only feeds the CORS whitelist — must
+  // never crash the boot.
   DASHBOARD_URL: url({
     default: "http://localhost:3000",
     desc: "Admin dashboard URL",
@@ -28,25 +28,15 @@ const validators = {
     desc: "JWT secret key",
   }),
 
-  // Mail (SMTP) configuration
-  EMAIL_HOST: str({ desc: "SMTP host" }),
-  EMAIL_PORT: port({ desc: "SMTP port" }),
+  // Mail (SMTP) configuration — contact-form emails are sent from this account
+  EMAIL_HOST: str({ default: "smtp.gmail.com", desc: "SMTP host" }),
+  EMAIL_PORT: port({ default: 587, desc: "SMTP port" }),
   USER_EMAIL: email({ desc: "SMTP / sender email address" }),
-  USER_PASSWORD: str({ desc: "SMTP password" }),
+  USER_PASSWORD: str({ desc: "SMTP password (app password for Gmail)" }),
 
-  // Dedicated sending account (appointment + contact mail is sent FROM here)
-  EMAIL_USER: str({ default: "", desc: "Sender email account (e.g. cs@shutters.ae)" }),
-  EMAIL_PASS: str({ default: "", desc: "Password for EMAIL_USER" }),
-
-  // SMTP mailbox login (preferred transporter credentials)
-  ADMIN_MAIL: str({ default: "", desc: "SMTP mailbox login email" }),
-  ADMIN_PASSWORD: str({ default: "", desc: "SMTP mailbox login password" }),
-
-  // Company inboxes that receive new appointment/contact notifications
+  // Company inboxes that receive new contact notifications
   ORDER_MAIL1: str({ default: "", desc: "Notification inbox 1" }),
   ORDER_MAIL2: str({ default: "", desc: "Notification inbox 2" }),
-  ORDER_MAIL3: str({ default: "", desc: "Notification inbox 3" }),
-  ORDER_MAIL4: str({ default: "", desc: "Notification inbox 4" }),
 
   // Redis (optional — falls back to in-memory cache if unavailable)
   REDIS_URL: str({ default: "", desc: "Redis connection string" }),
@@ -74,12 +64,7 @@ export const env = cleanEnv(process.env, validators, {
 /** Strip stray quotes / commas / whitespace from an env value. */
 const cleanEmail = (v) => (v || "").replace(/^[\s",]+|[\s",]+$/g, "").trim();
 
-/** Company inboxes that receive appointment + contact notifications. */
-export const NOTIFICATION_RECIPIENTS = [
-  env.ORDER_MAIL1,
-  env.ORDER_MAIL2,
-  env.ORDER_MAIL3,
-  env.ORDER_MAIL4,
-]
+/** Company inboxes that receive contact-form notifications. */
+export const NOTIFICATION_RECIPIENTS = [env.ORDER_MAIL1, env.ORDER_MAIL2]
   .map(cleanEmail)
   .filter(Boolean);

@@ -18,6 +18,17 @@ enum ContentStatus {
   ARCHIVED
 }
 
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  COD
+}
+
 model Admin {
   id String @id @default(uuid()) @db.Uuid
 
@@ -32,6 +43,83 @@ model Admin {
   updatedAt DateTime @updatedAt
 }
 
+model User {
+  id       String  @id @default(uuid()) @db.Uuid
+  name     String
+  email    String  @unique
+  password String
+  phone    String?
+
+  // Password reset (random token + expiry, single-use)
+  resetToken       String?
+  resetTokenExpiry DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  addresses Address[]
+  orders    Order[]
+}
+
+model Address {
+  id          String  @id @default(uuid()) @db.Uuid
+  userId      String  @db.Uuid
+  fullName    String
+  phone       String
+  addressLine String
+  city        String
+  area        String?
+  isDefault   Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id          String @id @default(uuid()) @db.Uuid
+  orderNumber String @unique
+  trackingId  String @unique
+
+  // Null for guest checkout (order without an account).
+  userId String? @db.Uuid
+
+  // Delivery address snapshot (no billing address).
+  customerName String
+  email        String
+  phone        String
+  addressLine  String
+  city         String
+  area         String?
+  note         String?
+
+  // Amounts (PKR)
+  subtotal      Decimal       @db.Decimal(10, 2)
+  shippingFee   Decimal       @default(250) @db.Decimal(10, 2)
+  total         Decimal       @db.Decimal(10, 2)
+  paymentMethod PaymentMethod @default(COD)
+  status        OrderStatus   @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  items OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(uuid()) @db.Uuid
+  orderId   String  @db.Uuid
+  productId String? @db.Uuid
+  name      String
+  image     String?
+  price     Decimal @db.Decimal(10, 2)
+  quantity  Int
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
 model Category {
   // Primary Key
   id String @id @default(uuid()) @db.Uuid
@@ -40,9 +128,9 @@ model Category {
   name            String        @unique
   description     String        @db.Text()
   breadcrumb      String
-  bannerImage     Json          @default("{\"imageUrl\": \"https://placehold.co/1440x500?text=Banner+Image\"}")
   path            String        @unique
   posterImage     Json          @default("{\"imageUrl\": \"https://placehold.co/600x600?text=Product+Image\"}")
+  bannerImage     Json?
   metaTitle       String
   metaDescription String
   canonicalUrl    String
@@ -53,21 +141,23 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  products Product[] @relation(name: "CategoryProducts")
-  blogs    Blog[]    @relation(name: "CategoryBlogs")
+  products      Product[]     @relation(name: "CategoryProducts")
+  subcategories Subcategory[] @relation(name: "CategorySubcategories")
+  blogs         Blog[]        @relation(name: "CategoryBlogs")
 }
 
 model Subcategory {
   // Primary Key
-  id String @id @default(uuid()) @db.Uuid
+  id         String @id @default(uuid()) @db.Uuid
+  categoryId String @db.Uuid
 
   // Core fields
   name            String        @unique
   description     String        @db.Text()
   breadcrumb      String
-  bannerImage     Json          @default("{\"imageUrl\": \"https://placehold.co/1440x500?text=Banner+Image\"}")
   path            String        @unique
   posterImage     Json          @default("{\"imageUrl\": \"https://placehold.co/600x600?text=Product+Image\"}")
+  bannerImage     Json?
   metaTitle       String
   metaDescription String
   canonicalUrl    String
@@ -77,15 +167,23 @@ model Subcategory {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relations
+  category Category  @relation(name: "CategorySubcategories", fields: [categoryId], references: [id], onDelete: Restrict)
+  products Product[] @relation(name: "SubcategoryProducts")
 }
 
 model Product {
   id                    String        @id @default(uuid()) @db.Uuid
   categoryId            String        @db.Uuid
+  subcategoryId         String?       @db.Uuid
   name                  String
   description           String        @db.Text()
   breadcrumb            String
   path                  String        @unique
+  price                 Decimal       @db.Decimal(10, 2)
+  discountPrice         Decimal?      @db.Decimal(10, 2)
+  stock                 Int           @default(0)
   posterImage           Json          @default("{\"imageUrl\": \"https://placehold.co/600x600?text=Product+Image\"}")
   productImages         Json[]        @default([])
   additionalInformation Json[]        @default([])
@@ -101,7 +199,8 @@ model Product {
   updatedAt DateTime @updatedAt
 
   // Relations
-  category Category @relation(name: "CategoryProducts", fields: [categoryId], references: [id], onDelete: Restrict)
+  category    Category     @relation(name: "CategoryProducts", fields: [categoryId], references: [id], onDelete: Restrict)
+  subcategory Subcategory? @relation(name: "SubcategoryProducts", fields: [subcategoryId], references: [id], onDelete: Restrict)
 }
 
 model Contact {

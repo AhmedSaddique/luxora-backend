@@ -1,5 +1,5 @@
 {
-  "name": "shutter-backend",
+  "name": "luxora-backend",
   "version": "1.0.0",
   "type": "module",
   "main": "src/app.js",
@@ -15,11 +15,14 @@
     "db:migrate": "npx prisma migrate dev",
     "db:deploy": "npx prisma migrate deploy && npx prisma generate",
     "db:reset": "npx prisma migrate reset",
-    "db:seed": "node prisma/seed.js"
+    "db:seed": "node prisma/seed.js",
+    "db:seed:catalog": "node prisma/seed-catalog.js",
+    "db:seed:products": "node prisma/seed-products.js",
+    "db:sync": "npx prisma db push && npx prisma generate"
   },
   "author": "",
   "license": "ISC",
-  "description": "Shutters backend - GraphQL API (Express + Apollo + Prisma)",
+  "description": "Luxora Collection backend - GraphQL API (Express + Apollo + Prisma)",
   "engines": {
     "node": "24.x"
   },

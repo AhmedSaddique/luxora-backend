@@ -11,22 +11,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const VIEWS_DIRECTORY = path.join(__dirname, "../views");
-const {
-  NODE_ENV,
-  ADMIN_MAIL,
-  ADMIN_PASSWORD,
-  EMAIL_USER,
-  EMAIL_PASS,
-  USER_EMAIL,
-  USER_PASSWORD,
-  EMAIL_HOST,
-  EMAIL_PORT,
-} = env;
+const { NODE_ENV, USER_EMAIL, USER_PASSWORD, EMAIL_HOST, EMAIL_PORT } = env;
 
-// Prefer the dedicated mailbox login (ADMIN_*), then the sending account,
-// then fall back to the generic SMTP account.
-const SENDER_EMAIL = EMAIL_USER || ADMIN_MAIL || USER_EMAIL;
-const SENDER_PASS = EMAIL_PASS || ADMIN_PASSWORD || USER_PASSWORD;
+const SENDER_EMAIL = USER_EMAIL;
+const SENDER_PASS = USER_PASSWORD;
 
 const createTransporter = () => {
   const transporter = nodemailer.createTransport({
@@ -51,10 +39,10 @@ const transporter = createTransporter();
 
 // HTML email templates available under src/views/<type>/index.html
 const SUPPORTED_HTML_TEMPLATES = [
-  "appointment-customer",
-  "appointment-admin",
   "contact-customer",
   "contact-admin",
+  "reset-password",
+  "order-confirmation",
 ];
 
 const templateCache = new Map();
@@ -103,7 +91,7 @@ const processTemplate = (template, variables) => {
 const sendMail = async ({ to, subject, html }) => {
   try {
     return await transporter.sendMail({
-      from: `Shutter <${SENDER_EMAIL}>`,
+      from: `Luxora Collection <${SENDER_EMAIL}>`,
       to,
       subject,
       html,

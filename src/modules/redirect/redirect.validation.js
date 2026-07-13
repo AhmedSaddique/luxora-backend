@@ -4,8 +4,8 @@ import { z } from "zod";
  * Normalize a source path so lookups are consistent regardless of how the
  * URL was entered. Strips an optional origin, ensures a single leading slash,
  * and removes any trailing slash.
- *   "https://shutters.ae/solid-panel-plantation-shutters/" -> "/solid-panel-plantation-shutters"
- *   "solid-panel-plantation-shutters"                      -> "/solid-panel-plantation-shutters"
+ *   "https://example.com/some-page/" -> "/some-page"
+ *   "some-page"                      -> "/some-page"
  */
 export const normalizePath = (value) => {
   if (typeof value !== "string") return value;

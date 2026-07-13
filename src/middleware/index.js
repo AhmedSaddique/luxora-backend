@@ -15,6 +15,7 @@ import { prisma, tokenUtils } from "#lib/index.js";
  */
 const buildContext = async ({ req, res }) => {
   let user = null;
+  let customer = null;
 
   let accessToken = req.cookies?.accessToken;
   if (!accessToken && req.headers.authorization?.startsWith("Bearer ")) {
@@ -23,10 +24,11 @@ const buildContext = async ({ req, res }) => {
 
   if (accessToken) {
     try {
-      const { id } = tokenUtils.verify(accessToken);
-      if (id) {
+      const decoded = tokenUtils.verify(accessToken);
+      // Only admin tokens (no customer type marker) resolve an admin.
+      if (decoded.id && decoded.type !== "customer") {
         user = await prisma.admin.findUnique({
-          where: { id },
+          where: { id: decoded.id },
           select: {
             id: true,
             name: true,
@@ -41,7 +43,23 @@ const buildContext = async ({ req, res }) => {
     }
   }
 
-  return { user, req, res };
+  // Customer (storefront) token — kept separate from the admin session.
+  let customerToken = req.cookies?.customerToken || req.headers["x-customer-token"];
+  if (customerToken) {
+    try {
+      const decoded = tokenUtils.verify(customerToken);
+      if (decoded.id && decoded.type === "customer") {
+        customer = await prisma.user.findUnique({
+          where: { id: decoded.id },
+          select: { id: true, name: true, email: true, phone: true, createdAt: true },
+        });
+      }
+    } catch {
+      customer = null;
+    }
+  }
+
+  return { user, customer, req, res };
 };
 
 export const setupMiddleware = (app, apolloServer) => {

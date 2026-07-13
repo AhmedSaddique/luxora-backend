@@ -4,23 +4,17 @@ export const productTypeDefs = gql`
   type Product {
     id: ID!
     categoryId: ID!
+    subcategoryId: ID
     name: String!
     description: String!
     breadcrumb: String!
-    bannerImage: JSON
     path: String!
+    price: Float!
+    discountPrice: Float
+    stock: Int!
     posterImage: JSON
-    firstImage: JSON
-    firstHeading: String!
-    firstSubTitle: String!
-    firstDescription: String!
-    secondImage: JSON
-    secondHeading: String!
-    secondSubTitle: String!
-    secondDescription: String!
-    imageHeading: String
     productImages: [JSON!]
-    faq: [JSON!]
+    additionalInformation: [JSON!]
     metaTitle: String
     metaDescription: String
     canonicalUrl: String
@@ -30,27 +24,22 @@ export const productTypeDefs = gql`
     createdAt: DateTime!
     updatedAt: DateTime!
     category: Category
+    subcategory: Subcategory
   }
 
   input CreateProductInput {
     categoryId: ID!
+    subcategoryId: ID
     name: String!
     description: String!
     breadcrumb: String!
-    bannerImage: JSON
     path: String
+    price: Float!
+    discountPrice: Float
+    stock: Int
     posterImage: JSON
-    firstImage: JSON
-    firstHeading: String!
-    firstSubTitle: String!
-    firstDescription: String!
-    secondImage: JSON
-    secondHeading: String!
-    secondSubTitle: String!
-    secondDescription: String!
-    imageHeading: String
     productImages: [JSON!]
-    faq: [JSON!]
+    additionalInformation: [JSON!]
     metaTitle: String
     metaDescription: String
     canonicalUrl: String
@@ -60,23 +49,17 @@ export const productTypeDefs = gql`
 
   input UpdateProductInput {
     categoryId: ID
+    subcategoryId: ID
     name: String
     description: String
     breadcrumb: String
-    bannerImage: JSON
     path: String
+    price: Float
+    discountPrice: Float
+    stock: Int
     posterImage: JSON
-    firstImage: JSON
-    firstHeading: String
-    firstSubTitle: String
-    firstDescription: String
-    secondImage: JSON
-    secondHeading: String
-    secondSubTitle: String
-    secondDescription: String
-    imageHeading: String
     productImages: [JSON!]
-    faq: [JSON!]
+    additionalInformation: [JSON!]
     metaTitle: String
     metaDescription: String
     canonicalUrl: String
@@ -89,6 +72,7 @@ export const productTypeDefs = gql`
     productById(id: ID!): Product
     productByPath(path: String!): Product
     productsByCategory(categoryId: ID!): [Product!]!
+    productsBySubcategory(subcategoryId: ID!): [Product!]!
   }
 
   type Mutation {

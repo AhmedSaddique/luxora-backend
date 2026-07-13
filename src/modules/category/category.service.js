@@ -15,7 +15,7 @@ export const categoryService = {
   byId: (id) =>
     prisma.category.findUnique({
       where: { id },
-      include: { products: true, blogs: true },
+      include: { subcategories: true, products: true, blogs: true },
     }),
 
   byPath: async (path, onlyPublished = false) => {
@@ -23,10 +23,11 @@ export const categoryService = {
       where: { path },
       include: onlyPublished
         ? {
+            subcategories: { where: { status: "PUBLISHED" } },
             products: { where: { status: "PUBLISHED" } },
             blogs: { where: { status: "PUBLISHED" } },
           }
-        : { products: true, blogs: true },
+        : { subcategories: true, products: true, blogs: true },
     });
     // A draft/archived category isn't visible to the public.
     if (onlyPublished && category && category.status !== "PUBLISHED") return null;
