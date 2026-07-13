@@ -3,6 +3,16 @@ import { cleanEnv, str, port, email, url, testOnly } from "envalid";
 
 dotenv.config();
 
+// Be forgiving about URL env vars: if a host is provided without a protocol
+// (e.g. "my-app.vercel.app"), assume https:// so strict url() validation and
+// CORS origin matching still work. Prevents a hard crash on misconfigured envs.
+for (const key of ["BACKEND_URL", "FRONTEND_URL", "DASHBOARD_URL"]) {
+  const value = process.env[key];
+  if (value && !/^https?:\/\//i.test(value.trim())) {
+    process.env[key] = `https://${value.trim().replace(/^\/+/, "")}`;
+  }
+}
+
 const validators = {
   NODE_ENV: str({
     choices: ["development", "test", "production"],
