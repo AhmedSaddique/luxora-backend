@@ -3,6 +3,12 @@ import { cleanEnv, str, port, email, url, testOnly } from "envalid";
 
 dotenv.config();
 
+// Normalize NODE_ENV so a stray "Production" / " production " won't fail the
+// strict choices() check and crash the app.
+if (process.env.NODE_ENV) {
+  process.env.NODE_ENV = process.env.NODE_ENV.trim().toLowerCase();
+}
+
 // Be forgiving about URL env vars: if a host is provided without a protocol
 // (e.g. "my-app.vercel.app"), assume https:// so strict url() validation and
 // CORS origin matching still work. Prevents a hard crash on misconfigured envs.
